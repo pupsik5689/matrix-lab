@@ -12,7 +12,7 @@ class TDynamicMatrix : public TDynamicVector<TDynamicVector<T>>
 	using::TDynamicVector<TDynamicVector<T>>::sz;
 
 public:
-	TDynamicMatrix(size_t s = 1);
+	TDynamicMatrix(size_t s);
 	TDynamicMatrix(const TDynamicMatrix<T>& m);
 	~TDynamicMatrix();
 
@@ -27,9 +27,9 @@ public:
 };
 
 template<class T>
-inline TDynamicMatrix<T>::TDynamicMatrix(size_t s)
+inline TDynamicMatrix<T>::TDynamicMatrix(size_t s = 1): TDynamicVector<TDynamicVector<T>> (s)
 {
-	if (s < 1)
+	if ((s < 1) || (s > MAX_MATRIX_SIZE))
 		throw "Error";
 
 	this->sz = s;
@@ -134,4 +134,33 @@ inline TDynamicMatrix<T> TDynamicMatrix<T>::operator*(const TDynamicMatrix<T>& m
 		}
 
 	return res;
+}
+
+template<class T>
+std::ostream& operator <<(std::ostream& ostr, TDynamicMatrix<T>& p)
+{
+	for (size_t i = 0; i < p.GetSize(); i++)
+	{
+		auto v = p[i];
+		for (size_t j = 0; j < p.GetSize(); j++)
+		{
+			ostr << p[i][j] << "\t";
+		}
+		ostr << "\n";
+	}
+
+	return ostr;
+}
+
+template<class T>
+std::istream& operator >>(std::istream& istr, TDynamicMatrix<T>& p)
+{
+	size_t s;
+	istr >> s;
+	TSquareMatrix<T> istr(s);
+	for (size_t i = 0; i < s; i++)
+		for (size_t j = 0; j < s; j++)
+			istr >> istr[i][j];
+	p = istrmatrix;
+	return istr;
 }

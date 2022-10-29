@@ -5,7 +5,7 @@
 // Тестирование матриц
 
 #include <iostream>
-#include "tmatrix.h"
+#include "Matrix.h"
 //---------------------------------------------------------------------------
 
 void main()
@@ -14,17 +14,36 @@ void main()
   int i, j;
 
   setlocale(LC_ALL, "Russian");
-  cout << "Тестирование класс работы с матрицами"
-    << endl;
+  std::cout << "Тестирование класс работы с матрицами \n";
   for (i = 0; i < 5; i++)
-    for (j = i; j < 5; j++ )
+    for (j = 0; j < 5; j++ )
     {
-      a[i][j] =  i * 10 + j;
-      b[i][j] = (i * 10 + j) * 100;
+      a[i][j] =  3;
+      b[i][j] = 2;
     }
   c = a + b;
-  cout << "Matrix a = " << endl << a << endl;
-  cout << "Matrix b = " << endl << b << endl;
-  cout << "Matrix c = a + b" << endl << c << endl;
+  std::cout << "Matrix a = " << "\n" << a << "\n";
+  std::cout << "Matrix b = " << "\n" << b << "\n";
+  std::cout << "Matrix c = a + b" << "\n" << c << "\n";
+  c = a - b;
+  std::cout << "Matrix c = a - b" << "\n" << c << "\n";
+  c = a * b;
+  std::cout << "Matrix c = a * b" << "\n" << c << "\n";
+
+
+
+  TDynamicVector<int> av(5), bv(5), cv(5);
+
+  for (int i = 0; i < 5; i++)
+  {
+    av[i] = i + 1;
+    bv[i] = i + 3;
+  }
+  cv = av + bv;
+  std::cout << "Vector av = " << av << "\n";
+  std::cout << "Vector bv = " << bv << "\n";
+  std::cout << "Vector av + bv = " << cv << "\n";
+  cv = bv - av;
+  std::cout << "Vector bv - av = " << cv << "\n";
 }
 //---------------------------------------------------------------------------

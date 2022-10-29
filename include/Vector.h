@@ -5,7 +5,7 @@
 const int MAX_VECTOR_SIZE = 100000000;
 
 
-template <class T>
+template <typename T>
 class TDynamicVector
 {
 protected:
@@ -21,7 +21,7 @@ public:
 	TDynamicVector<T>& operator=(const TDynamicVector<T>& v);
 	TDynamicVector<T>& operator=(TDynamicVector<T>&& v) noexcept;
 
-	size_t size() const noexcept;
+	size_t GetSize() const noexcept;
 
 	T& operator[](size_t ind);
 	const T& operator[](size_t ind) const;
@@ -42,20 +42,20 @@ public:
 
 	friend std::istream& operator>>(std::istream& istr, TDynamicVector& v)
 	{
-		for (int i; i < v.sz; i++)
-			std::istr >> v.pMem[i];
-		return std::istr;
+		for (int i = 0; i < v.sz; i++)
+			istr >> v.pMem[i];
+		return istr;
 	}
 
-	friend std::ostream& operator>>(std::ostream& ostr, const TDynamicVector& v)
+	friend std::ostream& operator<<(std::ostream& ostr, const TDynamicVector& v)
 	{
-		for (int i; i < v.sz; i++)
-			std::ostr << v.pMem[i] << ',';
-		return std::istr;
+		for (int i = 0; i < v.sz; i++)
+			ostr << v.pMem[i] << ' ';
+		return ostr;
 	}
 };
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T>::TDynamicVector(size_t s)
 {
 	if ((s < 1) || (s > MAX_VECTOR_SIZE))
@@ -65,10 +65,12 @@ inline TDynamicVector<T>::TDynamicVector(size_t s)
 	pMem = new T[sz];
 
 	for (int i = 0; i < sz; i++)
-		pMem[i] = 0;
+	{
+		pMem[i] = {};
+	}
 }
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T>::TDynamicVector(T* arr, size_t s)
 {
 	if ((s < 1) or (arr == nullptr))
@@ -81,7 +83,7 @@ inline TDynamicVector<T>::TDynamicVector(T* arr, size_t s)
 		pMem[i] = arr[i];
 }
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T>::TDynamicVector(const TDynamicVector<T>& v)
 {
 	if (v.pMem == nullptr)
@@ -99,7 +101,7 @@ inline TDynamicVector<T>::TDynamicVector(const TDynamicVector<T>& v)
 	}
 }
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T>::TDynamicVector(TDynamicVector<T>&& v) noexcept
 {
 	sz = v.sz;
@@ -108,7 +110,7 @@ inline TDynamicVector<T>::TDynamicVector(TDynamicVector<T>&& v) noexcept
 	v.pMem = nullptr;
 }
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T>::~TDynamicVector()
 {
 	if (pMem != nullptr)
@@ -118,7 +120,7 @@ inline TDynamicVector<T>::~TDynamicVector()
 	}
 }
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T>& TDynamicVector<T>::operator=(const TDynamicVector<T>& v)
 {
 	if (this != &v)
@@ -143,7 +145,7 @@ inline TDynamicVector<T>& TDynamicVector<T>::operator=(const TDynamicVector<T>& 
 	return *this;
 }
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T>& TDynamicVector<T>::operator=(TDynamicVector<T>&& v) noexcept
 {
 	if (this != &v)
@@ -161,13 +163,13 @@ inline TDynamicVector<T>& TDynamicVector<T>::operator=(TDynamicVector<T>&& v) no
 	return *this;
 }
 
-template<class T>
-inline size_t TDynamicVector<T>::size() const noexcept
+template<typename T>
+inline size_t TDynamicVector<T>::GetSize() const noexcept
 {
 	return sz;
 }
 
-template<class T>
+template<typename T>
 inline T& TDynamicVector<T>::operator[](size_t ind)
 {
 	if ((ind >= 0) && (ind < sz))
@@ -178,7 +180,7 @@ inline T& TDynamicVector<T>::operator[](size_t ind)
 		throw "Error";
 }
 
-template<class T>
+template<typename T>
 inline const T& TDynamicVector<T>::operator[](size_t ind) const
 {
 	if (ind >= 0) && (ind < sz)
@@ -189,7 +191,7 @@ inline const T& TDynamicVector<T>::operator[](size_t ind) const
 		throw "Error";
 }
 
-template<class T>
+template<typename T>
 inline T& TDynamicVector<T>::at(size_t ind)
 {
 	if (pMem == nullptr)
@@ -203,7 +205,7 @@ inline T& TDynamicVector<T>::at(size_t ind)
 		return pMem[ind];
 }
 
-template<class T>
+template<typename T>
 inline const T& TDynamicVector<T>::at(size_t ind) const
 {
 	if (pMem == nullptr)
@@ -217,7 +219,7 @@ inline const T& TDynamicVector<T>::at(size_t ind) const
 		return pMem[ind];
 }
 
-template<class T>
+template<typename T>
 inline bool TDynamicVector<T>::operator==(const TDynamicVector<T>& v) const noexcept
 {
 	if (sz != v.sz)
@@ -232,7 +234,7 @@ inline bool TDynamicVector<T>::operator==(const TDynamicVector<T>& v) const noex
 	return true;
 }
 
-template<class T>
+template<typename T>
 inline bool TDynamicVector<T>::operator!=(const TDynamicVector<T>& v) const noexcept
 {
 	if (sz == v.sz)
@@ -247,7 +249,7 @@ inline bool TDynamicVector<T>::operator!=(const TDynamicVector<T>& v) const noex
 	return true;
 }
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T> TDynamicVector<T>::operator+(T val)
 {
 	TDynamicVector res(*this);
@@ -258,7 +260,7 @@ inline TDynamicVector<T> TDynamicVector<T>::operator+(T val)
 	return res;
 }
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T> TDynamicVector<T>::operator-(double val)
 {
 	TDynamicVector res(*this);
@@ -269,7 +271,7 @@ inline TDynamicVector<T> TDynamicVector<T>::operator-(double val)
 	return res;
 }
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T> TDynamicVector<T>::operator*(double val)
 {
 	TDynamicVector res(*this);
@@ -280,7 +282,7 @@ inline TDynamicVector<T> TDynamicVector<T>::operator*(double val)
 	return res;
 }
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T> TDynamicVector<T>::operator+(const TDynamicVector<T>& v)
 {
 	if (sz != v.sz)
@@ -294,7 +296,7 @@ inline TDynamicVector<T> TDynamicVector<T>::operator+(const TDynamicVector<T>& v
 	return res;
 }
 
-template<class T>
+template<typename T>
 inline TDynamicVector<T> TDynamicVector<T>::operator-(const TDynamicVector<T>& v)
 {
 	if (sz != v.sz)
@@ -308,7 +310,7 @@ inline TDynamicVector<T> TDynamicVector<T>::operator-(const TDynamicVector<T>& v
 	return res;
 }
 
-template<class T>
+template<typename T>
 inline T TDynamicVector<T>::operator*(const TDynamicVector<T>& v) noexcept(noexcept(T()))
 {
 	if (sz != v.sz)

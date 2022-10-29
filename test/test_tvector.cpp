@@ -1,11 +1,7 @@
 #include "Vector.h"
 
 #include <gtest.h>
-
-TEST(TDynamicVector, can_create_vector_with_positive_length)
-{
-  ASSERT_NO_THROW(TDynamicVector<int> v(5));
-}
+#include "test_tvector.h"
 
 TEST(TDynamicVector, cant_create_too_large_vector)
 {
@@ -48,7 +44,7 @@ TEST(TDynamicVector, can_get_size)
 {
   TDynamicVector<int> v(4);
 
-  EXPECT_EQ(4, v.size());
+  EXPECT_EQ(4, v.GetSize());
 }
 
 //TEST(TDynamicVector, can_set_and_get_element)
@@ -94,7 +90,7 @@ TEST(TDynamicVector, assign_operator_change_vector_size)
   TDynamicVector<int> a(5);
   TDynamicVector<int> b(3);
   b = a;
-  EXPECT_EQ(b.size(), 5);
+  EXPECT_EQ(b.GetSize(), 5);
 }
 
 TEST(TDynamicVector, can_assign_vectors_of_different_size)
